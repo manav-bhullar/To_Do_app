@@ -1,58 +1,23 @@
-//jshint esversion:6
 const express = require("express");
 const bodyParser = require("body-parser");
-
 
 const app = express();
 app.set('view engine', "ejs");
 
+app.get("/", function(req, res) {
+    var today = new Date(); // Fixed unclosed parenthesis
 
-app.get("/", function (req, res) {
-    var today = new Date();
-    var currentDay = today.getDay();
-    var day = "";
+    var options = {
+        weekday: "long",
+        day: "numeric",
+        month: "long"
+    };
 
-    switch (currentDay) {
-        case 0:
-            day = "Sunday";
-            break;
+    var day = today.toLocaleDateString("en-US", options); // Using toLocaleDateString
 
-        case 1:
-            day = "Monday"
-            break;
-
-        case 2:
-            day = "Tuesday";
-            break;
-
-        case 3:
-            day = "Wedesday";
-            break;
-
-        case 4:
-            day = "Thrusday";
-            break;
-
-        case 5:
-            day = "Friday";
-            break;
-
-        case 6:
-            day = "Saturday";
-            break;
-
-        default:
-            console.log("Error: current day =  " + currentDay);
-    }
-
-    
-    res.render("list", { 
-        kindOfDay: day 
-    })
-
-
+    res.render("list", { kindOfDay: day }); // Send data to template
 });
 
-app.listen(3000, function () {
-    console.log("Engine started 🚒")
+app.listen(3000, function() {
+    console.log("Engine started ");
 });
